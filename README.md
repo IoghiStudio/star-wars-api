@@ -1,2 +1,2 @@
 # star-wars-api
-Search App
+Search App using star wars api
