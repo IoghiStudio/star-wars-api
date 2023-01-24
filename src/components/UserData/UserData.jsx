@@ -48,7 +48,7 @@ export const UserData = ({
         Hair color: {hair_color}
       </p>
 
-      {/* <p>
+      <p>
         Films:
         {films.map(film => (
             <li
@@ -60,7 +60,7 @@ export const UserData = ({
         )}
       </p>
 
-      <p>
+      {/* <p>
         StarShips:
         {starships.map(starship => (
             <span>{starship}</span>
@@ -79,9 +79,7 @@ export const UserData = ({
 
       <button
       className='userData__reset'
-        onClick={() => {
-          onReset()
-        }}
+        onClick={onReset}
       >
         Go Back!
       </button>

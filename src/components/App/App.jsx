@@ -11,14 +11,21 @@ const request = (url) => {
 
 export const App= () => {
   const [characters, setCharacters] = useState([]);
+  const [filteredFilms, setFilteredFilms] = useState([]);
 
-  const [films, setFilms] = useState([]);
-  const [starships, setStarships] = useState([]);
-  const [vehicles, setVehicles] = useState([]);
-  const [planets, setPlanets] = useState([]);
+  // const [films, setFilms] = useState([]);
+  // const [starships, setStarships] = useState([]);
+  // const [vehicles, setVehicles] = useState([]);
+  // const [planets, setPlanets] = useState([]);
 
   const [selected, setSelected] = useState(null);
   const [query, setQuery] = useState('');
+
+  // let filteredFilms = [];
+  let filteredStarships = [];
+  let filteredVehicles = [];
+
+  let filteredCharacters = characters;
 
   useEffect(() => {
     async function getCharacters() {
@@ -27,39 +34,63 @@ export const App= () => {
       setCharacters(people.results);
     }
 
-    async function getFilms() {
-      let response = await request('films');
-      let films = await response.json();
-      setFilms(films.results);
-    }
+    // async function getFilms() {
+    //   let response = await request('films');
+    //   let films = await response.json();
+    //   setFilms(films.results);
+    // }
 
-    async function getStarships() {
-      let response = await request('starships');
-      let ships = await response.json();
-      setStarships(ships.results);
-    }
+    // async function getStarships() {
+    //   let response = await request('starships');
+    //   let ships = await response.json();
+    //   setStarships(ships.results);
+    // }
 
-    async function getVehicles() {
-      let response = await request('vehicles');
-      let vehicles = await response.json();
-      setVehicles(vehicles.results);
-    }
+    // async function getVehicles() {
+    //   let response = await request('vehicles');
+    //   let vehicles = await response.json();
+    //   setVehicles(vehicles.results);
+    // }
 
-    async function getPlanets() {
-      let response = await request('planets');
-      let planets = await response.json();
-      setPlanets(planets.results);
-    }
+    // async function getPlanets() {
+    //   let response = await request('planets');
+    //   let planets = await response.json();
+    //   setPlanets(planets.results);
+    // }
 
     getCharacters();
-    getFilms();
-    getStarships();
-    getVehicles();
-    getPlanets();
-    getCharacters();
+    // getFilms();
+    // getStarships();
+    // getVehicles();
+    // getPlanets();
+    // getCharacters();
   }, []);
 
-  let filteredCharacters = characters;
+  useEffect(() => {
+    async function updateFilteredFilm() {
+      if (selected) {
+        let filtered = [];
+  
+        for (const film of selected.films) {
+          const res = await fetch(film);
+          const movie = await res.json();
+          filtered.push(movie.title);
+        }
+
+        setFilteredFilms(filtered)
+        console.log(filteredFilms)
+      } else {
+        return;
+      }
+    }
+    console.log('update');
+
+    updateFilteredFilm();
+
+    return () => {
+      setFilteredFilms([]);
+    }
+  }, [selected])
 
   if (query.length) {
     filteredCharacters = characters.filter(char => {
@@ -67,19 +98,7 @@ export const App= () => {
     })
   }
 
-  let filteredFilms = [];
-  let filteredStarships = [];
-  let filteredVehicles = [];
-
-  if(selected) {
-    filteredFilms = selected.films.map(film => {
-      const movie = fetch(film)
-        .then(resp => resp.json())
-        .then(movie => movie.name)
-
-      return movie;
-    })
-  }
+  
 
   const resetSelected = () => {
     setSelected(null);
@@ -124,13 +143,18 @@ export const App= () => {
               </div>
             </>
           ) : (
-            <UserData 
-              user={selected}
-              starships={filteredStarships}
-              vehicles={filteredVehicles}
-              films={filteredFilms}
-              onReset={resetSelected}
-            />
+            <div>
+              UserData
+              {filteredFilms.length > 1 && (
+                <UserData 
+                  user={selected}
+                  films={filteredFilms}
+                  // starships={filteredStarships}
+                  // vehicles={filteredVehicles}
+                  onReset={resetSelected}
+                />
+              )}
+            </div>
           )}
       </div>
     </>
