@@ -12,9 +12,10 @@ const request = (url) => {
 
 export const App= () => {
   const [characters, setCharacters] = useState([]);
-  const [filteredFilms, setFilteredFilms] = useState([]);
-  const [filteredStarships, setFilteredStarships] = useState([]);
-  const [filteredVehicles, setFilteredVehicles] = useState([]);
+  const [films, setFilms] = useState([]);
+  const [starships, setStarships] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [species, setSpecies] = useState([]);
 
   // const [films, setFilms] = useState([]);
   // const [starships, setStarships] = useState([]);
@@ -63,7 +64,7 @@ export const App= () => {
   }, []);
 
   useEffect(() => {
-    async function updateFilteredVehicles() {
+    async function updateVehicles() {
       if (selected) {
         let filtered = [];
   
@@ -73,13 +74,11 @@ export const App= () => {
           filtered.push(vehicle.name);
         }
 
-        setFilteredVehicles(filtered);
-      } else {
-        return;
+        setVehicles([...filtered]);
       }
     }
 
-    async function updateFilteredFilms() {
+    async function updateFilms() {
       if (selected) {
         let filtered = [];
   
@@ -89,50 +88,60 @@ export const App= () => {
           filtered.push(movie.title);
         }
 
-        setFilteredFilms([...filtered])
-      } else {
-        return;
+        setFilms([...filtered])
       }
     }
 
-    async function updateFilteredStarships() {
+    async function updateStarships() {
       if (selected) {
         let filtered = [];
   
         for (const link of selected.starships) {
           const res = await fetch(link);
           const starship = await res.json();
-          console.log(starship)
           filtered.push(starship.name);
         }
 
-        setFilteredStarships(filtered);
-      } else {
-        return;
+        setStarships([...filtered]);
+      }
+    }
+
+    async function updateSpecies() {
+      if (selected) {
+        let filtered = [];
+  
+        for (const link of selected.species) {
+          const res = await fetch(link);
+          const specie = await res.json();
+          filtered.push(specie.name);
+        }
+
+        setSpecies([...filtered]);
       }
     }
 
     
-    updateFilteredStarships();
-    updateFilteredVehicles() 
-    updateFilteredFilms();
+    updateStarships();
+    updateVehicles() 
+    updateFilms();
+    updateSpecies();
     
     console.log('update');
 
     return () => {
-      setFilteredFilms([]);
-      setFilteredVehicles([]);
-      setFilteredVehicles([])
+      setFilms([]);
+      setVehicles([]);
+      setVehicles([])
     }
   }, [selected])
 
 
-  const resetSelected = () => {
-    setSelected(null);
-    setFilteredFilms([]);
-    setFilteredStarships([]);
-    setFilteredVehicles([]);
-  }
+  // const resetSelected = () => {
+  //   setSelected(null);
+  //   setFilms([]);
+  //   setStarships([]);
+  //   setVehicles([]);
+  // }
 
   return (
     <>
@@ -146,15 +155,14 @@ export const App= () => {
           ) : (
             <div>
               UserData
-              {filteredFilms.length > 0 && (
                 <UserData 
                   user={selected}
-                  films={filteredFilms}
-                  starships={filteredStarships}
-                  vehicles={filteredVehicles}
-                  onReset={resetSelected}
+                  films={films}
+                  starships={starships}
+                  vehicles={vehicles}
+                  species={species}
+                  onReset={() => setSelected(false)}
                 />
-              )}
             </div>
           )}
       </div>

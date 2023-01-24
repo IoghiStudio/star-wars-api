@@ -5,7 +5,8 @@ export const UserData = ({
   onReset,
   films,
   starships,
-  vehicles
+  vehicles,
+  species
 }) => {
 
   const {
@@ -21,7 +22,7 @@ export const UserData = ({
   return (
     <div className="userData">
       <p className='userData__name'>
-        Username: {name}
+        Name: {name}
       </p>
 
       <p className='userData__gender'>
@@ -49,6 +50,18 @@ export const UserData = ({
       </p>
 
       <p>
+        Species:
+        {species.map(specie => (
+          <li
+              key={specie}
+            >
+              {specie}
+            </li>
+          )
+        )}
+      </p>
+
+      <p>
         Films:
         {films.map(film => (
             <li
@@ -63,7 +76,11 @@ export const UserData = ({
       <p>
         StarShips:
         {starships.map(starship => (
-            <span>{starship}</span>
+          <li
+              key={starship}
+            >
+              {starship}
+            </li>
           )
         )}
       </p>
@@ -71,7 +88,11 @@ export const UserData = ({
       <p>
         Vehicles:
         {vehicles.map(vehicle => (
-            <span>{vehicle} !</span>
+          <li
+              key={vehicle}
+            >
+              {vehicle}
+            </li>
           )
         )}
       </p>
