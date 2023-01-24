@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './App.scss';
 import { Header } from '../Header';
 import { UserData } from '../UserData';
+import { SearchForm } from '../SearchForm';
 
 const BASE_URL = 'https://swapi.dev/api/'
 
@@ -12,6 +13,8 @@ const request = (url) => {
 export const App= () => {
   const [characters, setCharacters] = useState([]);
   const [filteredFilms, setFilteredFilms] = useState([]);
+  const [filteredStarships, setFilteredStarships] = useState([]);
+  const [filteredVehicles, setFilteredVehicles] = useState([]);
 
   // const [films, setFilms] = useState([]);
   // const [starships, setStarships] = useState([]);
@@ -19,13 +22,6 @@ export const App= () => {
   // const [planets, setPlanets] = useState([]);
 
   const [selected, setSelected] = useState(null);
-  const [query, setQuery] = useState('');
-
-  // let filteredFilms = [];
-  let filteredStarships = [];
-  let filteredVehicles = [];
-
-  let filteredCharacters = characters;
 
   useEffect(() => {
     async function getCharacters() {
@@ -67,7 +63,23 @@ export const App= () => {
   }, []);
 
   useEffect(() => {
-    async function updateFilteredFilm() {
+    async function updateFilteredVehicles() {
+      if (selected) {
+        let filtered = [];
+  
+        for (const vehicle of selected.vehicles) {
+          const res = await fetch(vehicle);
+          const vehicle = await res.json();
+          filtered.push(vehicle.name);
+        }
+
+        setFilteredVehicles(filtered);
+      } else {
+        return;
+      }
+    }
+
+    async function updateFilteredFilms() {
       if (selected) {
         let filtered = [];
   
@@ -77,34 +89,49 @@ export const App= () => {
           filtered.push(movie.title);
         }
 
-        setFilteredFilms(filtered)
-        console.log(filteredFilms)
+        setFilteredFilms([...filtered])
       } else {
         return;
       }
     }
-    console.log('update');
 
-    updateFilteredFilm();
+    async function updateFilteredStarships() {
+      if (selected) {
+        let filtered = [];
+  
+        for (const starship of selected.starships) {
+          const res = await fetch(starship);
+          const starship = await res.json();
+          console.log(starship)
+          filtered.push(starship.name);
+        }
+
+        setFilteredStarships(filtered);
+      } else {
+        return;
+      }
+    }
+
+    
+    updateFilteredStarships();
+    updateFilteredVehicles() 
+    updateFilteredFilms();
+    
+    console.log('update');
 
     return () => {
       setFilteredFilms([]);
+      setFilteredVehicles([]);
+      setFilteredVehicles([])
     }
   }, [selected])
 
-  if (query.length) {
-    filteredCharacters = characters.filter(char => {
-      return char.name.toLowerCase().includes(query.toLowerCase())
-    })
-  }
-
-  
 
   const resetSelected = () => {
     setSelected(null);
-    filteredFilms = [];
-    filteredStarships = [];
-    filteredVehicles = [];
+    setFilteredFilms([]);
+    setFilteredStarships([]);
+    setFilteredVehicles([]);
   }
 
   return (
@@ -112,45 +139,19 @@ export const App= () => {
       <div className='app'>
         <Header/>
           {!selected ? (
-            <>
-              <div className='form'>
-                <label
-                  htmlFor="search"
-                >
-                  Search your favorite character:
-                </label>
-        
-                <input
-                    type="text"
-                    id="search"
-                    value={query}
-                    onChange={(event) => {
-                      setQuery(event.target.value)
-                    }}
-                />
-              </div>
-        
-              <div className='list'>
-                {filteredCharacters.map(char => (
-                  <card
-                    key={char.name}
-                    className='list__card'
-                    onClick={() => {
-                      setSelected(char);
-                    }}
-                  >{char.name}</card>
-                ))}
-              </div>
-            </>
+            <SearchForm
+              characters={characters}
+              onSelect={setSelected}
+            />
           ) : (
             <div>
               UserData
-              {filteredFilms.length > 1 && (
+              {filteredFilms.length > 0 && (
                 <UserData 
                   user={selected}
                   films={filteredFilms}
-                  // starships={filteredStarships}
-                  // vehicles={filteredVehicles}
+                  starships={filteredStarships}
+                  vehicles={filteredVehicles}
                   onReset={resetSelected}
                 />
               )}

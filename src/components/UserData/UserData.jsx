@@ -60,7 +60,7 @@ export const UserData = ({
         )}
       </p>
 
-      {/* <p>
+      <p>
         StarShips:
         {starships.map(starship => (
             <span>{starship}</span>
@@ -71,10 +71,10 @@ export const UserData = ({
       <p>
         Vehicles:
         {vehicles.map(vehicle => (
-            <span>s</span>
+            <span>{vehicle} !</span>
           )
         )}
-      </p> */}
+      </p>
       
 
       <button
