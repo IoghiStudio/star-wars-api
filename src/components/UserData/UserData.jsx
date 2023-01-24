@@ -50,7 +50,7 @@ export const UserData = ({
       </p>
 
       <div className="userData__categories">
-        <div className='userData__films userData__category'>
+        <ul className='userData__films userData__category'>
           Films:
           {films.map(film => (
               <li
@@ -60,9 +60,9 @@ export const UserData = ({
               </li>
             )
           )}
-        </div>
+        </ul>
 
-        <div className='userData__starships userData__category'>
+        <ul className='userData__starships userData__category'>
           StarShips:
           {starships.map(starship => (
             <li
@@ -72,9 +72,9 @@ export const UserData = ({
               </li>
             )
           )}
-        </div>
+        </ul>
 
-        <div className='userData__vehicles userData__category'>
+        <ul className='userData__vehicles userData__category'>
           Vehicles:
           {vehicles.map(vehicle => (
             <li
@@ -84,9 +84,9 @@ export const UserData = ({
               </li>
             )
           )}
-        </div>
+        </ul>
 
-        <div className='userData__species userData__categori'>
+        <ul className='userData__species userData__category'>
           Species:
           {species.map(specie => (
             <li
@@ -96,7 +96,7 @@ export const UserData = ({
               </li>
             )
           )}
-        </div>
+        </ul>
       </div>
       
 

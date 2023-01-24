@@ -15,8 +15,14 @@
   }
 
   &__category {
-    margin: 24px 0;
+    display: block;
+    width: 250px;
+    margin: 24px auto;
+    padding: 20px;
     min-height: 50px;
+
+    list-style: none;
+    border: 3px solid rgb(255, 251, 33);
   }
 
   &__reset {
