@@ -52,50 +52,86 @@ export const UserData = ({
       <div className="userData__categories">
         <ul className='userData__films userData__category'>
           Films:
-          {films.map(film => (
-              <li
-                key={film}
-              >
-                {film}
-              </li>
-            )
-          )}
+          {films.length 
+            ? (
+              <>
+                {films.map(film => (
+                  <li
+                      key={film}
+                    >
+                      {film}
+                    </li>
+                  )
+                )}
+              </>
+            ) : (
+              <>
+                No films!
+              </>
+            )}
         </ul>
 
         <ul className='userData__starships userData__category'>
           StarShips:
-          {starships.map(starship => (
-            <li
-                key={starship}
-              >
-                {starship}
-              </li>
-            )
-          )}
+          {starships.length 
+            ? (
+              <>
+                {starships.map(starship => (
+                  <li
+                      key={starship}
+                    >
+                      {starship}
+                    </li>
+                  )
+                )}
+              </>
+            ) : (
+              <>
+                No starships!
+              </>
+            )}
         </ul>
 
         <ul className='userData__vehicles userData__category'>
           Vehicles:
-          {vehicles.map(vehicle => (
-            <li
-                key={vehicle}
-              >
-                {vehicle}
-              </li>
-            )
-          )}
+          {vehicles.length 
+            ? (
+              <>
+                {vehicles.map(vehicle => (
+                  <li
+                      key={vehicle}
+                    >
+                      {vehicle}
+                    </li>
+                  )
+                )}
+              </>
+            ) : (
+              <>
+                No vehicles!
+              </>
+            )}
         </ul>
 
         <ul className='userData__species userData__category'>
           Species:
-          {species.map(specie => (
-            <li
-                key={specie}
-              >
-                {specie}
-              </li>
-            )
-          )}
+          {species.length 
+            ? (
+              <>
+                {species.map(specie => (
+                  <li
+                      key={specie}
+                    >
+                      {specie}
+                    </li>
+                  )
+                )}
+              </>
+            ) : (
+              <>
+                No species!
+              </>
+            )}
         </ul>
       </div>
       
