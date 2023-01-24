@@ -21,85 +21,87 @@ export const UserData = ({
 
   return (
     <div className="userData">
-      <p className='userData__name'>
+      <p className='userData__p'>
         Name: {name}
       </p>
 
-      <p className='userData__gender'>
+      <p className='userData__p'>
         Gender: {gender}
       </p>
 
-      <p className='userData__birthday'>
+      <p className='userData__p'>
         Birthday: {birth_year}
       </p>
       
-      <p className='userData__height'>
+      <p className='userData__p'>
         Height: {height}
       </p>
 
-      <p className='userData__mass'>
+      <p className='userData__p'>
         Mass: {mass}
       </p>
 
-      <p className='userData__skin'>
+      <p className='userData__p'>
         Skin color: {skin_color}
       </p>
       
-      <p className='userData__hair'>
+      <p className='userData__p'>
         Hair color: {hair_color}
       </p>
 
-      <p>
-        Species:
-        {species.map(specie => (
-          <li
-              key={specie}
-            >
-              {specie}
-            </li>
-          )
-        )}
-      </p>
+      <div className="userData__categories">
+        <div className='userData__films userData__category'>
+          Films:
+          {films.map(film => (
+              <li
+                key={film}
+              >
+                {film}
+              </li>
+            )
+          )}
+        </div>
 
-      <p>
-        Films:
-        {films.map(film => (
+        <div className='userData__starships userData__category'>
+          StarShips:
+          {starships.map(starship => (
             <li
-              key={film}
-            >
-              {film}
-            </li>
-          )
-        )}
-      </p>
+                key={starship}
+              >
+                {starship}
+              </li>
+            )
+          )}
+        </div>
 
-      <p>
-        StarShips:
-        {starships.map(starship => (
-          <li
-              key={starship}
-            >
-              {starship}
-            </li>
-          )
-        )}
-      </p>
+        <div className='userData__vehicles userData__category'>
+          Vehicles:
+          {vehicles.map(vehicle => (
+            <li
+                key={vehicle}
+              >
+                {vehicle}
+              </li>
+            )
+          )}
+        </div>
 
-      <p>
-        Vehicles:
-        {vehicles.map(vehicle => (
-          <li
-              key={vehicle}
-            >
-              {vehicle}
-            </li>
-          )
-        )}
-      </p>
+        <div className='userData__species userData__categori'>
+          Species:
+          {species.map(specie => (
+            <li
+                key={specie}
+              >
+                {specie}
+              </li>
+            )
+          )}
+        </div>
+      </div>
       
 
       <button
-      className='userData__reset'
+        className='userData__reset'
         onClick={onReset}
       >
         Go Back!
