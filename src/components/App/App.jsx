@@ -67,8 +67,8 @@ export const App= () => {
       if (selected) {
         let filtered = [];
   
-        for (const vehicle of selected.vehicles) {
-          const res = await fetch(vehicle);
+        for (const link of selected.vehicles) {
+          const res = await fetch(link);
           const vehicle = await res.json();
           filtered.push(vehicle.name);
         }
@@ -83,8 +83,8 @@ export const App= () => {
       if (selected) {
         let filtered = [];
   
-        for (const film of selected.films) {
-          const res = await fetch(film);
+        for (const link of selected.films) {
+          const res = await fetch(link);
           const movie = await res.json();
           filtered.push(movie.title);
         }
@@ -99,8 +99,8 @@ export const App= () => {
       if (selected) {
         let filtered = [];
   
-        for (const starship of selected.starships) {
-          const res = await fetch(starship);
+        for (const link of selected.starships) {
+          const res = await fetch(link);
           const starship = await res.json();
           console.log(starship)
           filtered.push(starship.name);
