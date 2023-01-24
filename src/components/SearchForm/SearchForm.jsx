@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './SearchForm.scss';
 
 export const SearchForm = ({
   characters,
@@ -18,13 +19,15 @@ export const SearchForm = ({
     <>
     <div className='form'>
       <label
-        htmlFor="search"
+        htmlFor="form__search"
       >
         Search your favorite character:
       </label>
 
       <input
+          className="form__input"
           type="text"
+          placeholder="ex: Dark Vader"
           id="search"
           value={query}
           onChange={(event) => {
@@ -33,11 +36,11 @@ export const SearchForm = ({
       />
     </div>
 
-    <div className='list'>
+    <div className='form__list'>
       {visibleCharacters.map(char => (
         <p
           key={char.name}
-          className='list__card'
+          className='form__card'
           onClick={() => {
             onSelect(char);
           }}

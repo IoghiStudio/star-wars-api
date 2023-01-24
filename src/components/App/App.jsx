@@ -16,13 +16,12 @@ export const App= () => {
   const [starships, setStarships] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [species, setSpecies] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   // const [films, setFilms] = useState([]);
   // const [starships, setStarships] = useState([]);
   // const [vehicles, setVehicles] = useState([]);
   // const [planets, setPlanets] = useState([]);
-
-  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     async function getCharacters() {
@@ -135,35 +134,25 @@ export const App= () => {
     }
   }, [selected])
 
-
-  // const resetSelected = () => {
-  //   setSelected(null);
-  //   setFilms([]);
-  //   setStarships([]);
-  //   setVehicles([]);
-  // }
-
   return (
     <>
       <div className='app'>
         <Header/>
+
           {!selected ? (
             <SearchForm
               characters={characters}
               onSelect={setSelected}
             />
           ) : (
-            <div>
-              UserData
-                <UserData 
-                  user={selected}
-                  films={films}
-                  starships={starships}
-                  vehicles={vehicles}
-                  species={species}
-                  onReset={() => setSelected(false)}
-                />
-            </div>
+            <UserData 
+              user={selected}
+              films={films}
+              starships={starships}
+              vehicles={vehicles}
+              species={species}
+              onReset={() => setSelected(false)}
+            />
           )}
       </div>
     </>

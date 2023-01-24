@@ -1,0 +1,30 @@
+
+.form {
+  padding: 14px;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 400px;
+    border-radius: 10px;
+    background-color: rgb(255, 239, 91);
+    color:rgb(0, 0, 0)
+  }
+
+  &__card {
+    border-radius: 10px;
+    margin: 14px auto;
+    height: 50px;
+    line-height: 50px;
+    width: 300px;
+    background-color: rgb(132, 165, 255);
+
+    cursor: pointer;
+    transition: transform 300ms;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
