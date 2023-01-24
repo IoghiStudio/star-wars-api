@@ -11,7 +11,7 @@ export const UserData = ({
   const {
     name,
     gender,
-    birthday_year,
+    birth_year,
     height,
     mass,
     skin_color,
@@ -29,7 +29,7 @@ export const UserData = ({
       </p>
 
       <p className='userData__birthday'>
-        Birthday: {birthday_year}
+        Birthday: {birth_year}
       </p>
       
       <p className='userData__height'>
@@ -48,7 +48,7 @@ export const UserData = ({
         Hair color: {hair_color}
       </p>
 
-      <p>
+      {/* <p>
         Films:
         {films.map(film => (
             <li
@@ -74,10 +74,8 @@ export const UserData = ({
             <span>s</span>
           )
         )}
-      </p>
+      </p> */}
       
-
-
 
       <button
       className='userData__reset'
