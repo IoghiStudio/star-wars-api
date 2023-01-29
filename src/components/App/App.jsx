@@ -3,155 +3,141 @@ import './App.scss';
 import { Header } from '../Header';
 import { UserData } from '../UserData';
 import { SearchForm } from '../SearchForm';
-
-const BASE_URL = 'https://swapi.dev/api/'
-
-const request = (url) => {
-  return fetch(`${BASE_URL}${url}`)
-}
+import * as Api from '../Api';
 
 export const App= () => {
   const [characters, setCharacters] = useState([]);
+  const [selectedChar, setSelectedChar] = useState(null);
+  
+  //propertier for selected character
   const [films, setFilms] = useState([]);
   const [starships, setStarships] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [species, setSpecies] = useState([]);
-  const [selected, setSelected] = useState(null);
 
-  // const [films, setFilms] = useState([]);
-  // const [starships, setStarships] = useState([]);
-  // const [vehicles, setVehicles] = useState([]);
-  // const [planets, setPlanets] = useState([]);
+  async function getCharacters() {
+    const characters = await Api.Request('people');
+    setCharacters(characters);
+  }
 
-  useEffect(() => {
-    async function getCharacters() {
-      let response = await request('people');
-      let people = await response.json();
-      setCharacters(people.results);
+  // async function updateFilms() {
+  //   if (selectedChar) {
+  //     let filtered = [];
+
+  //     for (const link of selectedChar.films) {
+  //       console.log(link);
+  //       const res = await fetch(link);
+  //       const movie = await res.json();
+  //       filtered.push(movie.title);
+  //     }
+
+  //     setFilms([...filtered])
+  //   }
+  // }
+
+  async function updateFilms() {
+    if (!selectedChar) {
+      return;
     }
 
-    // async function getFilms() {
-    //   let response = await request('films');
-    //   let films = await response.json();
-    //   setFilms(films.results);
-    // }
+    const data = [];
+    const arrayOfPromises = selectedChar.films
+      .map(url => fetch(url));
 
-    // async function getStarships() {
-    //   let response = await request('starships');
-    //   let ships = await response.json();
-    //   setStarships(ships.results);
-    // }
+    for await (const request of arrayOfPromises) {
+      const film = await request.json();
+      data.push(film.title);
+    }
 
-    // async function getVehicles() {
-    //   let response = await request('vehicles');
-    //   let vehicles = await response.json();
-    //   setVehicles(vehicles.results);
-    // }
+    setFilms([...data]);
+  }
 
-    // async function getPlanets() {
-    //   let response = await request('planets');
-    //   let planets = await response.json();
-    //   setPlanets(planets.results);
-    // }
+  async function updateStarships() {
+      if (!selectedChar) {
+      return;
+    }
+    const data = [];
+    const arrayOfPromises = selectedChar.starships
+      .map(url => fetch(url));
 
+    for await (const request of arrayOfPromises) {
+      const starship = await request.json();
+      data.push(starship.name);
+    }
+
+    setStarships([...data]);
+  }
+  
+  async function updateVehicles() {
+    if (!selectedChar) {
+      return;
+    }
+    const data = [];
+    const arrayOfPromises = selectedChar.vehicles
+      .map(url => fetch(url));
+
+    for await (const request of arrayOfPromises) {
+      const vehicle = await request.json();
+      data.push(vehicle.name);
+    }
+
+    setVehicles([...data]);
+  }
+
+  async function updateSpecies() {
+    if (!selectedChar) {
+      return;
+    }
+    const data = [];
+    const arrayOfPromises = selectedChar.species
+      .map(url => fetch(url));
+
+    for await (const request of arrayOfPromises) {
+      const species = await request.json();
+      data.push(species.name);
+    }
+
+    setSpecies([...data]);
+  }
+
+  useEffect(() => {
     getCharacters();
-    // getFilms();
-    // getStarships();
-    // getVehicles();
-    // getPlanets();
-    // getCharacters();
   }, []);
 
   useEffect(() => {
-    async function updateVehicles() {
-      if (selected) {
-        let filtered = [];
-  
-        for (const link of selected.vehicles) {
-          const res = await fetch(link);
-          const vehicle = await res.json();
-          filtered.push(vehicle.name);
-        }
-
-        setVehicles([...filtered]);
-      }
-    }
-
-    async function updateFilms() {
-      if (selected) {
-        let filtered = [];
-  
-        for (const link of selected.films) {
-          const res = await fetch(link);
-          const movie = await res.json();
-          filtered.push(movie.title);
-        }
-
-        setFilms([...filtered])
-      }
-    }
-
-    async function updateStarships() {
-      if (selected) {
-        let filtered = [];
-  
-        for (const link of selected.starships) {
-          const res = await fetch(link);
-          const starship = await res.json();
-          filtered.push(starship.name);
-        }
-
-        setStarships([...filtered]);
-      }
-    }
-
-    async function updateSpecies() {
-      if (selected) {
-        let filtered = [];
-  
-        for (const link of selected.species) {
-          const res = await fetch(link);
-          const specie = await res.json();
-          filtered.push(specie.name);
-        }
-
-        setSpecies([...filtered]);
-      }
-    }
-
-    
-    updateStarships();
-    updateVehicles() 
-    updateFilms();
-    updateSpecies();
-    
-    console.log('update');
-
-    return () => {
+    if (selectedChar) {
+      updateStarships();
+      updateVehicles() 
+      updateFilms();
+      updateSpecies();
+      console.log('data loaded')
+    } else {
       setFilms([]);
       setVehicles([]);
-      setVehicles([])
+      setSpecies([]);
+      setStarships([]);
+      console.log('removed everything');
     }
-  }, [selected])
+  }, [selectedChar])
 
   return (
     <>
       <div className='app'>
         <Header/>
 
-          {!selected ? (
+          {!selectedChar ? (
             <SearchForm
               characters={characters}
-              onSelect={setSelected}
+              onSelect={setSelectedChar}
             />
           ) : (
             <UserData 
-              user={selected}
+              user={selectedChar}
               films={films}
               starships={starships}
               vehicles={vehicles}
               species={species}
-              onReset={() => setSelected(false)}
+              onReset={() => setSelectedChar(false)}
             />
           )}
       </div>
