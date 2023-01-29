@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable no-unused-expressions */
+import { useState, useEffect } from "react";
 import './SearchForm.scss';
 
 export const SearchForm = ({
@@ -6,14 +7,19 @@ export const SearchForm = ({
   onSelect
 }) => {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
   let visibleCharacters = characters;
 
-  if (query.length) {
-    visibleCharacters = characters.filter(char => {
-      return char.name.toLowerCase().includes(query.toLowerCase())
-    })
-  }
+  useEffect(() => {
+    const timerId = setTimeout(setDebouncedQuery, 500, query);
+
+    return () => clearTimeout(timerId)
+  }, [query])
+
+  visibleCharacters = characters.filter(char => {
+    return char.name.toLowerCase().includes(debouncedQuery.toLowerCase())
+  })
 
   return (
     <>
