@@ -20,21 +20,6 @@ export const App= () => {
     setCharacters(characters);
   }
 
-  // async function updateFilms() {
-  //   if (selectedChar) {
-  //     let filtered = [];
-
-  //     for (const link of selectedChar.films) {
-  //       console.log(link);
-  //       const res = await fetch(link);
-  //       const movie = await res.json();
-  //       filtered.push(movie.title);
-  //     }
-
-  //     setFilms([...filtered])
-  //   }
-  // }
-
   async function updateFilms() {
     if (!selectedChar) {
       return;
